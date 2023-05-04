@@ -1,0 +1,200 @@
+{
+  "project_info": {
+    "project_number": "752666162049",
+    "firebase_url": "https://dream-1edae-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "dream-1edae",
+    "storage_bucket": "dream-1edae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752666162049:android:475878207621f2595fee80",
+        "android_client_info": {
+          "package_name": "com.spidermbz.chamel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752666162049-48lr28mbbu7i2b1174s0p0v9arj3nmnu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.chamel",
+            "certificate_hash": "e8c7ad873177135f0c100a808097a59b4a61fc1f"
+          }
+        },
+        {
+          "client_id": "752666162049-g0f48vmflb59ututoio3bpufab2jfo3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.chamel",
+            "certificate_hash": "0567c67023fe294161363d873a97f2bb69bdfbc8"
+          }
+        },
+        {
+          "client_id": "752666162049-jhb4g1i43djbcpjgs8cbkqq7gi2jkjc8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.chamel",
+            "certificate_hash": "df1c7b147ad6657d4daf853e7c950707d5cc390e"
+          }
+        },
+        {
+          "client_id": "752666162049-n8r9rhqv9tib650i17spog4lcjosho0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.chamel",
+            "certificate_hash": "c7ef65dc664bba433a1073589a2f9a3f4b1023b9"
+          }
+        },
+        {
+          "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw6cPcI2UL3LpJVHBMKfTWeBNC0pi4LZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "752666162049-77a32ob21e3lm9torn6i13d8benuiigu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spidermbz.chamel"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752666162049:android:b556a2707267172b5fee80",
+        "android_client_info": {
+          "package_name": "com.spidermbz.dream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752666162049-c11nq3q7kbbhuon03gdfii6h2dommcck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream",
+            "certificate_hash": "cc17778189d391e107c863c5b3b1df3fd9cae943"
+          }
+        },
+        {
+          "client_id": "752666162049-flo6djlfjtnmmcetn60t5clclk7e8l54.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream",
+            "certificate_hash": "e349dc13ab4959db1a92eef9d6c51cb6d0ec20bb"
+          }
+        },
+        {
+          "client_id": "752666162049-j5uqftoh3imh50su0tc2bap1aff5tu0a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream",
+            "certificate_hash": "225fd4f8eb41dcda6c2b38c9309c8070530660f9"
+          }
+        },
+        {
+          "client_id": "752666162049-n2o4oa8ls9leu47uu3phmtu5mqnooobu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream",
+            "certificate_hash": "c7ef65dc664bba433a1073589a2f9a3f4b1023b9"
+          }
+        },
+        {
+          "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw6cPcI2UL3LpJVHBMKfTWeBNC0pi4LZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "752666162049-77a32ob21e3lm9torn6i13d8benuiigu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spidermbz.chamel"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7794782835828190~6610425948"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752666162049:android:e06bc59d770ff46f5fee80",
+        "android_client_info": {
+          "package_name": "com.spidermbz.dream2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752666162049-0cv8kd7pss5nbcebb6f6t9iglol2je8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream2",
+            "certificate_hash": "c7ef65dc664bba433a1073589a2f9a3f4b1023b9"
+          }
+        },
+        {
+          "client_id": "752666162049-dlabomv2sb4h8gp5gb55h6m60h7bh687.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spidermbz.dream2",
+            "certificate_hash": "225fd4f8eb41dcda6c2b38c9309c8070530660f9"
+          }
+        },
+        {
+          "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw6cPcI2UL3LpJVHBMKfTWeBNC0pi4LZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752666162049-dvng8cnlhj3a1ng2lo2c3bai9qdppiai.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "752666162049-77a32ob21e3lm9torn6i13d8benuiigu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spidermbz.chamel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
