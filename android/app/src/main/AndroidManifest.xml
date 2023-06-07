@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.spidermbz.dream">
    <application
-        android:label="مفسر الاحلام"
+        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
        android:exported="true">
         <activity

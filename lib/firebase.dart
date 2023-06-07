@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dream/Database.dart';
+import 'package:dream/WishList.dart';
 import 'package:dream/core.dart' as core;
 import 'package:dream/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,7 +165,74 @@ class firebase{
 
       }
     }
+    final sp102=await ref.child("privatechat/${core.uid}").get();
+    if(sp102.exists){
+      showDialog(context: core.navState.currentContext!, builder: (_)=>Material(child: Center(child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.purpleAccent,
+                offset: const Offset(
+                  5.0,
+                  5.0,
+                ),
+                blurRadius: 10.0,
+                spreadRadius: 2.0,
+              ), //BoxShadow
+              BoxShadow(
+                color: Colors.white,
+                offset: const Offset(0.0, 0.0),
+                blurRadius: 0.0,
+                spreadRadius: 0.0,
+              ), //BoxShadow
+            ]),
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("المحادثة الخاصة لا تزال مفتوحة يمكنك الدخول لن يتم خصم اي نقاط".i18n(),style: TextStyle(fontSize: 26),),
+            SizedBox(height: 15,),
+            Row(mainAxisAlignment:
+            MainAxisAlignment.center,
+              children: [
 
+
+
+
+                TextButton(onPressed: (){
+                  Navigator.of(context).pop();
+                  Navigator.of(core.navState.currentContext!).push(MaterialPageRoute(builder: (context)=>WishList(private: true, mofser: "  ")));
+                }, child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Icon(
+                      Icons.check,
+                      size: 30,
+                      color: Colors.purpleAccent,
+                    ),
+                    SizedBox(
+                      width:10,
+                    ),
+                    Text(
+                      "حسنا".i18n(),
+                      style: TextStyle(
+                          color: Colors.lightBlue, fontSize: 26),
+                    )
+                  ],
+                ),),
+              ],
+            ),
+            SizedBox(height:5,),
+          ],
+        ),
+
+      ),),type: MaterialType.transparency,));
+
+
+    }
     if(core.dbvl!=null){
       try {
         core.dbvl!.cancel();
@@ -480,7 +548,7 @@ class firebase{
         await ref.child("admin/${sp2.value.toString()}").update({
           "id":core.uid,
           "nb":nb,
-          "msg":msg,
+          "msg":msg+"\n ver: 65",
           "jns":core.jns,
           "hale":core.hale,
           "omer":core.omer.toString(),
@@ -553,7 +621,7 @@ class firebase{
         await ref.child("admin/${sp2.value.toString()}").update({
           "id":core.uid,
           "nb":nb,
-          "msg":msg,
+          "msg":msg+"\n ver: 65",
           "jns":"-1",
           "hale":"-1",
           "omer":"-1",

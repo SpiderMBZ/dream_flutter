@@ -1,7 +1,7 @@
 name: dream
 description: A new Flutter application.
 
-version: 6.7.6+63
+version: 6.7.7+65
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -13,6 +13,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   sqflite: ^2.2.8
+  external_app_launcher: ^3.1.0
   cupertino_icons: ^1.0.2
   url_launcher: ^6.0.3
   audio_session: ^0.1.13

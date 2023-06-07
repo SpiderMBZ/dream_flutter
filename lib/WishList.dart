@@ -155,6 +155,12 @@ class _WishList extends State< WishList>{
 
       Navigator.pop(context);
       if(private){
+        core.mfr=<String>[];
+
+        final mfs=await ref.child("a@dmin/zmofaser").get();
+        mfs.children.forEach((element) {
+          core.mfr.add(element.value.toString());
+        });
         core.LocalNotificationService.sendnotf("محادثة جديدة", "اضغط هنا للدخول");
         final snapshot = await ref.child('${core.uid}/point').get();
         if (snapshot.exists) {
@@ -249,7 +255,8 @@ class _WishList extends State< WishList>{
           final dt = event.snapshot.children.first;
 
           var st = dt.value.toString().split("/");
-
+          String tm="";
+          try{tm=DateFormat("hh:mm a").format(DateTime.fromMillisecondsSinceEpoch(int.parse( st[2])).toLocal());}catch(E){tm= st[2];};
           messages.add(TextMessage(
               author: dt.key.toString() == core.uid ? a : (st[3].length <= 1
                   ? User(name: st[0], id: dt.key.toString())
@@ -260,7 +267,7 @@ class _WishList extends State< WishList>{
                   id: dt.key.toString(),
                   color: Colors.red,
                   isVerified: true))),
-              time: st[2],
+              time:tm,
               text:(blocked!=null&&blocked!.contains(dt.key.toString()))? "لقد قمت بحظر هذا المستخدم".i18n():st[1],
               onTap: () {
                 if(dt.key.toString()!=core.uid&&st[3].length <= 1)
@@ -288,7 +295,8 @@ class _WishList extends State< WishList>{
           final dt = event.snapshot.children.first;
 
           var st = dt.value.toString().split("/");
-
+          String tm="";
+          try{tm=DateFormat("hh:mm a").format(DateTime.fromMillisecondsSinceEpoch(int.parse( st[2])).toLocal());}catch(E){tm= st[2];};
           messages.add(TextMessage(
               author: dt.key.toString() == core.uid ? a : (st[3].length <= 1
                   ? User(name: st[0], id: dt.key.toString())
@@ -299,7 +307,7 @@ class _WishList extends State< WishList>{
                   id: dt.key.toString(),
                   color: Colors.red,
                   isVerified: true))),
-              time: st[2],
+              time:tm,
               text: st[1],
               onTap: () {
 
@@ -488,8 +496,7 @@ class _WishList extends State< WishList>{
           .child("chat")
           .push()
           .key!).update({
-        "${core.uid}": "${core.name}/$msg/${ DateFormat('hh:mm').format(
-            DateTime.now().toUtc())}/"
+        "${core.uid}": "${core.name}/$msg/${DateTime.now().toUtc().millisecondsSinceEpoch}}/"
       });
     }
     else{
@@ -503,8 +510,7 @@ class _WishList extends State< WishList>{
           .child("privatechat/${core.uid}")
           .push()
           .key!).update({
-        "${core.uid}": "${core.name}/$msg/${ DateFormat('hh:mm').format(
-            DateTime.now().toUtc())}/"
+        "${core.uid}": "${core.name}/$msg/${DateTime.now().toUtc().millisecondsSinceEpoch}/"
       });
     }
   }

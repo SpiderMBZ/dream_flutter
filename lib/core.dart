@@ -140,38 +140,66 @@ class LocalNotificationService {
 class ad{
 
 
+
+
 // banner ca-app-pub-7794782835828190/9256694605
-  static Widget banner=StatefulBuilder(builder: (BuildContext context,StateSetter bnstate){
+
+
+
+  static Widget banner=StatefulBuilder(builder: (BuildContext cn,StateSetter s){
     if(!rmv) {
-      BannerAd? _bannerAd = BannerAd(
-        adUnitId: "ca-app-pub-7794782835828190/9256694605",
-        request: const AdRequest(),
-        size: AdSize.banner,
-        listener: BannerAdListener(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            try{
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              bnstate(() {});
-            });}catch(e){}
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (ad, err) {
-            // Dispose the ad here to free resources.
-            ad.dispose();
-          },
-        ),
-      )
-        ..load();
-      return _bannerAd != null ? SizedBox(
-        width: _bannerAd!.size.width.toDouble(),
-        height: _bannerAd!.size.height.toDouble(),
-        child: AdWidget(ad: _bannerAd!),
-      ) : Container();
+      Future<BannerAd?> bnl = Future(() async {
+        BannerAd? nn = await BannerAd(
+          adUnitId: "ca-app-pub-7794782835828190/9256694605",
+          request: const AdRequest(),
+          size: AdSize.banner,
+          listener: BannerAdListener(
+// Called when an ad is successfully received.
+            onAdLoaded: (ad) {
+              debugPrint('$ad loaded.');
+            },
+// Called when an ad request failed.
+            onAdFailedToLoad: (ad, err) {
+// Dispose the ad here to free resources.
+
+              print(err);
+              ad.dispose();
+              return null;
+            },
+          ),)
+          ..load();
+
+        return nn;
+      });
+
+
+      return FutureBuilder<BannerAd?>(future: bnl,
+          builder: (BuildContext context, AsyncSnapshot<BannerAd?> bn) {
+            if (bn.connectionState == ConnectionState.done) {
+              if (bn.data != null) {
+                try {
+                  return SizedBox(
+                      width: bn.data!.size.width.toDouble(),
+                      height: bn.data!.size.height.toDouble(),
+                      child: AdWidget(ad: bn.data!));
+                }catch (e){
+                  print("eeeeeeeeeeeeeeeeeeeeeee");
+                  print(e);
+                  return Container();
+                }
+                }
+              else
+                return Container();
+            }
+            else
+              return Container();
+          });
     }
-    else return Container();
+    else{
+      return Container();
+    }
   });
+
 
 
   static void loadAd() {

@@ -2,4 +2,5 @@
 <resources>
     <!-- Replace "343254889799245" with your Facebook App ID here. -->
     <string name="facebook_app_id">1546971825502376</string>
+    <string name="app_name">oneiromancy</string>
 </resources>

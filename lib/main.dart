@@ -47,6 +47,7 @@ import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:social_share/social_share.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 
 var countrylng= ['af-ZA',
   'am-ET',
@@ -302,7 +303,7 @@ Future<void> main() async {
 
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   });
-  MobileAds.instance.initialize();
+ await MobileAds.instance.initialize();
 if(!droplng.contains(Language.fromIsoCode(core.iplng!)))core.iplng="en";
 
   LocalJsonLocalization.delegate.directories = ['assets/len'];
@@ -498,7 +499,7 @@ ThemeData appTheme = ThemeData(
     fontFamily: 'arb');
 
 
-
+bool shw=false;
 SharedPreferences? prefs ;
 double? width;
 double? height;
@@ -576,6 +577,11 @@ class _BottomNavState extends State<BottomNav> {
                 setState(() {
                   core.sel.value = index;
                 });
+              try{
+                if(!shw)core.ad.loadAd();
+                shw=!shw;
+
+              }catch(e){}
 
             },
           )),  key: _sideMenuKey,
@@ -899,7 +905,7 @@ class _BottomNavState extends State<BottomNav> {
                                 TextButton(onPressed: (){
                                   if(b==-1) {
                                     loading(context);
-                                    sa(() async {
+                                    sa(()  {
                                       int nb = Random().nextInt(180);
 
                                       if (nb == 1)
@@ -1102,7 +1108,7 @@ class _BottomNavState extends State<BottomNav> {
               ),
             ),
             Spacer(),
-            Padding(padding: EdgeInsets.only(left: width!*0.25),child:Text("Powred by SpiderMBZ \n Ver 6.7.6",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),)
+            Padding(padding: EdgeInsets.only(left: width!*0.25),child:Text("Powred by SpiderMBZ \n Ver 6.7.7",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),)
             ,SizedBox(height: height!*0.04,)
           ],
         ),
@@ -1247,10 +1253,11 @@ class _BottomNavState extends State<BottomNav> {
     else{
       if((await prefs?.getInt("rate"))==null)await prefs?.setInt("rate",1);
       if((await prefs?.getInt("rate"))!=null&&(await prefs?.getInt("rate"))==6){
-        await prefs?.setInt("rate",(await prefs?.getInt("rate"))!+1);
+
 
         showDialog(context: context, builder: (BuildContext context){return WillPopScope(child: AlertDialog(elevation: 5,title: Text("هل يمكنك تقييمنا ؟".i18n() ),actions: [
           TextButton(onPressed: () async {
+            await prefs?.setInt("rate",(await prefs?.getInt("rate"))!+1);
             Navigator.pop(context);
             core.launchUrl("market://details?id=com.spidermbz.dream");
 
@@ -2131,112 +2138,137 @@ class homeScreen extends State<HomeScreen> {
     double w = 50;
     return Scaffold(
       // bottomNavigationBar: /*NavigationTest()*/Navigation(),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        hoverElevation: 0,
-        onPressed: () {
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: "btn1",
+            elevation: 0,
+            hoverElevation: 0,
+            onPressed: ()async {
+              await LaunchApp.openApp(
+                  androidPackageName: 'com.spidermbz.chamel',
+                  openStore: true);
+    }
+            ,
+            child: ClipRRect(
+                child: Image(
+                    image: AssetImage('assets/images/shamel.png'),
+                    width: width! * 0.1),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            backgroundColor: appTheme.primaryColor.withOpacity(.5),
+          ),
 
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("مشاركة التطبيق".i18n()),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            onPrimary: Colors.white,
-                          ),
-                          child: Icon(Icons.facebook_rounded,color:Colors.white),
-                          onPressed: () async {
-                            final abn=await SocialShare.checkInstalledAppsForShare();
-                            if(abn?["facebook"]==true){
-                              //SocialShare.shareFacebookStory(appId: "1546971825502376",attributionURL: "https://play.google.com/store/apps/details?id=com.spidermbz.dream");
-                              await FlutterShareMe().shareToFacebook(msg:"فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n(),url: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
+          SizedBox(height: height!*0.02,),
+          FloatingActionButton(
+            heroTag: "btn2",
+            elevation: 0,
+            hoverElevation: 0,
+            onPressed: () {
 
-                            };
-                          },
-                        ),
-                      ),
-                    ),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SizedBox(
-                        height: h,
-                        width: w,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            onPrimary: Colors.white,
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("مشاركة التطبيق".i18n()),
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: StadiumBorder(),
+                                onPrimary: Colors.white,
+                              ),
+                              child: Icon(Icons.facebook_rounded,color:Colors.white),
+                              onPressed: () async {
+                                final abn=await SocialShare.checkInstalledAppsForShare();
+                                if(abn?["facebook"]==true){
+                                  //SocialShare.shareFacebookStory(appId: "1546971825502376",attributionURL: "https://play.google.com/store/apps/details?id=com.spidermbz.dream");
+                                  await FlutterShareMe().shareToFacebook(msg:"فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n(),url: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
+
+                                };
+                              },
+                            ),
                           ),
-                          child:  Icon(Icons.messenger_outline_rounded,color:Colors.white),
-                          onPressed: () async {
-                            final abn=await SocialShare.checkInstalledAppsForShare();
-                            if(abn?["facebook"]==true){
-                              //   SocialShare.shareInstagramStory(appId: "1546971825502376",imagePath: (await getImageFileFromAssets("images/mfsrlogo.png")).path,attributionURL: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
-                              await FlutterShareMe().shareToMessenger(msg:"فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n(),url: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
-                            };
-                          },
                         ),
-                      ),
-                    ),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SizedBox(
-                        height: h,
-                        width: w,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            onPrimary: Colors.white,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            height: h,
+                            width: w,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: StadiumBorder(),
+                                onPrimary: Colors.white,
+                              ),
+                              child:  Icon(Icons.messenger_outline_rounded,color:Colors.white),
+                              onPressed: () async {
+                                final abn=await SocialShare.checkInstalledAppsForShare();
+                                if(abn?["facebook"]==true){
+                                  //   SocialShare.shareInstagramStory(appId: "1546971825502376",imagePath: (await getImageFileFromAssets("images/mfsrlogo.png")).path,attributionURL: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
+                                  await FlutterShareMe().shareToMessenger(msg:"فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n(),url: "https://play.google.com/store/apps/details?id=com.spidermbz.dream" );
+                                };
+                              },
+                            ),
                           ),
-                          child: Image.asset('assets/images/telegram.png'),
-                          onPressed: () async {
-                            final abn=await SocialShare.checkInstalledAppsForShare();
-                            if(abn?["telegram"]==true){
-                              SocialShare.shareTelegram("فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n()+"\n"+"https://play.google.com/store/apps/details?id=com.spidermbz.dream",);
-                            };
-                          },
                         ),
-                      ),
-                    ),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SizedBox(
-                        height: h,
-                        width: w,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            onPrimary: Colors.white,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            height: h,
+                            width: w,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: StadiumBorder(),
+                                onPrimary: Colors.white,
+                              ),
+                              child: Image.asset('assets/images/telegram.png'),
+                              onPressed: () async {
+                                final abn=await SocialShare.checkInstalledAppsForShare();
+                                if(abn?["telegram"]==true){
+                                  SocialShare.shareTelegram("فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n()+"\n"+"https://play.google.com/store/apps/details?id=com.spidermbz.dream",);
+                                };
+                              },
+                            ),
                           ),
-                          child: Image.asset('assets/images/whatsapp.png'),
-                          onPressed: () async {
-                            final abn=await SocialShare.checkInstalledAppsForShare();
-                            if(abn?["whatsapp"]==true){
-                              SocialShare.shareWhatsapp("فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n()+"\n"+"https://play.google.com/store/apps/details?id=com.spidermbz.dream",);
-                            };
-                          },
                         ),
-                      ),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            height: h,
+                            width: w,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: StadiumBorder(),
+                                onPrimary: Colors.white,
+                              ),
+                              child: Image.asset('assets/images/whatsapp.png'),
+                              onPressed: () async {
+                                final abn=await SocialShare.checkInstalledAppsForShare();
+                                if(abn?["whatsapp"]==true){
+                                  SocialShare.shareWhatsapp("فسر حلمك بسرعة ودقة مع مفسر الاحلام".i18n()+"\n"+"https://play.google.com/store/apps/details?id=com.spidermbz.dream",);
+                                };
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               );
+
+
             },
-          );
-
-
-        },
-        child: Icon(Icons.info_outline),
-        backgroundColor: appTheme.primaryColor.withOpacity(.5),
+            child: Icon(Icons.info_outline),
+            backgroundColor: appTheme.primaryColor.withOpacity(.5),
+          )
+        ],
       ),
 
       body: ValueListenableBuilder(valueListenable: core.abc, builder: (BuildContext context,value,child){
@@ -2700,78 +2732,112 @@ class _HomeTop extends State<HomeTop> {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ahlm_feed(lst: 1)));
                                 }, child: Text("الملاحظات المرسلة ".i18n(),style: TextStyle(fontSize: 19),)),
                                 TextButton(onPressed: () async {
-                                  loading(context);
-                                  await firebase().sendholm(cmo.text, -1, "");
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  await DBProvider().getdb(2);
-                                  cmo.clear();
-                                  core.ad.loadAd();
-                                  showDialog(context: context, builder: (BuildContext context){
-
-                                    return Center(child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.purpleAccent,
-                                              offset: const Offset(
-                                                5.0,
-                                                5.0,
-                                              ),
-                                              blurRadius: 10.0,
-                                              spreadRadius: 2.0,
-                                            ), //BoxShadow
-                                            BoxShadow(
-                                              color: Colors.white,
-                                              offset: const Offset(0.0, 0.0),
-                                              blurRadius: 0.0,
-                                              spreadRadius: 0.0,
-                                            ), //BoxShadow
-                                          ]),
-                                      padding: EdgeInsets.only(top: 20,bottom: 20,right: 20,left: 20),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text("ملاحظة".i18n(),style: TextStyle(fontSize: 29),textAlign: TextAlign.center),
-                                          SizedBox(height: 40,),
-                                          Text("تمت العملية بنجاح . والان نرجو منك الانتظار نسرسل لك اشعارا عند الانتهاء ".i18n(),style: TextStyle(fontSize: 25),textAlign: TextAlign.center),
-                                          SizedBox(height: 30,),
-                                          Row(mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(onPressed: () async {
-                                                Navigator.pop(context);
-
-                                              }, child: Row(
+                                  try {
+                                    String msgfeed = cmo.text.replaceAll(
+                                        "/", "");
+                                    if (msgfeed.length > 0) {
+                                      loading(context);
+                                      await firebase().sendholm(
+                                          msgfeed, -1, "");
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      await DBProvider().getdb(2);
+                                      cmo.clear();
+                                      core.ad.loadAd();
+                                      showDialog(context: context,
+                                          builder: (BuildContext context) {
+                                            return Center(child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius
+                                                      .all(
+                                                      Radius.circular(30)),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors
+                                                          .purpleAccent,
+                                                      offset: const Offset(
+                                                        5.0,
+                                                        5.0,
+                                                      ),
+                                                      blurRadius: 10.0,
+                                                      spreadRadius: 2.0,
+                                                    ), //BoxShadow
+                                                    BoxShadow(
+                                                      color: Colors.white,
+                                                      offset: const Offset(
+                                                          0.0, 0.0),
+                                                      blurRadius: 0.0,
+                                                      spreadRadius: 0.0,
+                                                    ), //BoxShadow
+                                                  ]),
+                                              padding: EdgeInsets.only(top: 20,
+                                                  bottom: 20,
+                                                  right: 20,
+                                                  left: 20),
+                                              child: Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
-                                                  Icon(
-                                                    Icons.check,
-                                                    size: 30,
-                                                    color: Colors.purpleAccent,
-                                                  ),
-                                                  SizedBox(
-                                                    width:10,
-                                                  ),
+                                                children: [
+                                                  Text("ملاحظة".i18n(),
+                                                      style: TextStyle(
+                                                          fontSize: 29),
+                                                      textAlign: TextAlign
+                                                          .center),
+                                                  SizedBox(height: 40,),
                                                   Text(
-                                                    "موافق".i18n(),
-                                                    style: TextStyle(
-                                                        color: Colors.lightBlue, fontSize: 26),
-                                                  )
+                                                      "تمت العملية بنجاح . والان نرجو منك الانتظار نسرسل لك اشعارا عند الانتهاء "
+                                                          .i18n(),
+                                                      style: TextStyle(
+                                                          fontSize: 25),
+                                                      textAlign: TextAlign
+                                                          .center),
+                                                  SizedBox(height: 30,),
+                                                  Row(mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          Navigator.pop(
+                                                              context);
+                                                        }, child: Row(
+                                                        mainAxisSize: MainAxisSize
+                                                            .min,
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: <Widget>[
+                                                          Icon(
+                                                            Icons.check,
+                                                            size: 30,
+                                                            color: Colors
+                                                                .purpleAccent,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Text(
+                                                            "موافق".i18n(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .lightBlue,
+                                                                fontSize: 26),
+                                                          )
+                                                        ],
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5,),
                                                 ],
-                                              ),),
-                                            ],
-                                          ),
-                                          SizedBox(height:5,),
-                                        ],
-                                      ),
+                                              ),
 
-                                    ),);
-                                  });
-
+                                            ),);
+                                          });
+                                    } else
+                                      showToast("ارسل ملاحظتك؟".i18n(),
+                                          context: context,
+                                          animation: StyledToastAnimation.scale,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)));
+                                  }catch(E){}
                                 }, child: Text("ارسال".i18n(),style: TextStyle(fontSize: 19),)),
                                 TextButton(onPressed: (){
                                   Navigator.pop(context);
